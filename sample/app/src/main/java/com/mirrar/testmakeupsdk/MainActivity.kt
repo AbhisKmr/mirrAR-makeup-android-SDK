@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.core.app.ActivityCompat
 import com.mirrar.makeupsdk.MakeUpFragment
-import com.mirrar.makeupsdk.`interface`.IMakeupCallback
+import com.mirrar.makeupsdk.interface_class.IMakeupCallback
 
 class MainActivity : AppCompatActivity(), IMakeupCallback {
 
