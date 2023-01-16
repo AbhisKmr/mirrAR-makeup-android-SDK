@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Button
 import androidx.core.app.ActivityCompat
 import com.mirrar.makeupsdk.MakeUpFragment
 import com.mirrar.makeupsdk.interface_class.IMakeupCallback
@@ -40,7 +41,6 @@ class MainActivity : AppCompatActivity(), IMakeupCallback {
 
         if (allowed) {
             makeUpFragment = MakeUpFragment(this)
-            supportFragmentManager.beginTransaction()
             supportFragmentManager.beginTransaction().replace(R.id.container, makeUpFragment)
                 .commit()
         }
