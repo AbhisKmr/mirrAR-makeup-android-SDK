@@ -8,11 +8,12 @@ import android.os.Bundle
 import android.widget.Button
 import androidx.core.app.ActivityCompat
 import com.mirrar.makeupsdk.MakeUpFragment
+import com.mirrar.makeupsdk.helper.AppConstraints.Companion.BRAND_ID
 import com.mirrar.makeupsdk.interface_class.IMakeupCallback
+import com.visagetechnologies.makeupsdk.Effect
 
-class MainActivity : AppCompatActivity(), IMakeupCallback {
+class MainActivity : AppCompatActivity() {
 
-    private lateinit var makeUpFragment: MakeUpFragment
     private val PERMS = arrayOf(
         Manifest.permission.CAMERA
     )
@@ -21,8 +22,8 @@ class MainActivity : AppCompatActivity(), IMakeupCallback {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         ActivityCompat.requestPermissions(this, PERMS, 0)
-    }
 
+    }
 
     override fun onRequestPermissionsResult(
         requestCode: Int,
@@ -30,7 +31,6 @@ class MainActivity : AppCompatActivity(), IMakeupCallback {
         grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-
         var allowed = true
         for (i in permissions.indices) {
             if (grantResults[i] == PackageManager.PERMISSION_DENIED) {
@@ -40,37 +40,10 @@ class MainActivity : AppCompatActivity(), IMakeupCallback {
         }
 
         if (allowed) {
-            makeUpFragment = MakeUpFragment(this)
-            supportFragmentManager.beginTransaction().replace(R.id.container, makeUpFragment)
-                .commit()
+            findViewById<Button>(R.id.openMakeupSDK).setOnClickListener {
+                supportFragmentManager.beginTransaction().replace(R.id.container, MainFragment())
+                    .commit()
+            }
         }
-    }
-
-    override fun OnClear() {
-        TODO("Not yet implemented")
-    }
-
-    override fun OnEffectCreated() {
-        TODO("Not yet implemented")
-    }
-
-    override fun OnEffectDisplayed() {
-        TODO("Not yet implemented")
-    }
-
-    override fun OnEffectHidden() {
-        TODO("Not yet implemented")
-    }
-
-    override fun OnEffectRemoved() {
-        TODO("Not yet implemented")
-    }
-
-    override fun OnEffectUpdated() {
-        TODO("Not yet implemented")
-    }
-
-    override fun OnStart() {
-        TODO("Not yet implemented")
     }
 }
