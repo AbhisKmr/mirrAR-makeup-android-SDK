@@ -7,11 +7,19 @@ Step 2: add dependencies in `app gradle`
 
 ```
   dependencies {
-		...
-		...
-		...
-	    implementation files('libs/makeup-codebase-release.aar')
-	    implementation files('libs/makeup-engine-release.aar')
+	...
+	...
+	...
+	implementation 'com.google.code.gson:gson:2.8.9'
+    	implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    	implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    	implementation 'com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.2'
+    	implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.1'
+    	implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.5.1'
+    	implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1"
+		
+	implementation files('libs/makeup-codebase-release.aar')
+	implementation files('libs/makeup-engine-release.aar')
 	}
   ```
   <sub>*Clean Build after all the above steps.*</sub>
@@ -71,16 +79,20 @@ override fun onRequestPermissionsResult(
 
 Step 2. Initializing SDK
 
-(i) Past this piece of code on activity class after checking the camera permission
+(i) Assign Your brand ID on a static variable called `BRAND_ID`, for api calls
+ ```
+ AppConstraints.BRAND_ID = "BRAND_ID_BRAND_ID_BRAND_ID"
+ ```
+
+(ii) Past this piece of code on activity class after checking the camera permission
 ```
 makeUpFragment = MakeUpFragment(this)
-supportFragmentManager.beginTransaction()
 supportFragmentManager.beginTransaction()
                       .replace(R.id.container, makeUpFragment)
                       .commit()
 ```
 
-(ii) Add `FrameLayout` into xml layout file
+(iii) Add `FrameLayout` into xml layout file
 ```
 <FrameLayout
    android:id="@+id/container"
@@ -101,34 +113,41 @@ You can call the makeUpFragment.applyMakeupEffect() method to apply the makeup.
 
 You can call the makeUpFragment.removeMakeupEffect() method to remove the applied makeup.
 ```
-  var sku = "LIP_COLOR_001"
-  var category = "lipstick"
-  makeUpFragment.removeMakeupEffect(category, sku)
+  var effect = Effect()
+  makeUpFragment.removeMakeupEffect(effect)
 ```
 
 Step 4. Callback 
 
 Implement the `IMakeupCallback` interface on `MakeUpFragmet` parent activity and override all of their functions
 ```
-override fun OnStart() {
-   Log.v("OnStart", "SDK")
-}
+ override fun OnClear() {
 
-override fun OnEffectCreated() {
-   Log.v("OnEffectCreated", "SDK")
-}
+    }
 
-override fun OnEffectRemoved() {
-   Log.v("OnEffectRemoved", "SDK")
-}
+    override fun OnEffectCreated(effect: Effect) {
+        effectMap[effect.GetName()] = effect
+    }
 
-override fun OnEffectUpdated() {
-   Log.v("OnEffectUpdated", "SDK")
-}
+    override fun OnEffectDisplayed(effect: Effect) {
 
-override fun OnClear() {
-   Log.v("OnClear", "SDK")
-}
+    }
+
+    override fun OnEffectHidden(effect: Effect) {
+
+    }
+
+    override fun OnEffectRemoved(effect: Effect) {
+        effectMap.remove(effect.GetName())
+    }
+
+    override fun OnEffectUpdated(effect: Effect) {
+
+    }
+
+    override fun OnStart() {
+
+    }
 ```
 
 
