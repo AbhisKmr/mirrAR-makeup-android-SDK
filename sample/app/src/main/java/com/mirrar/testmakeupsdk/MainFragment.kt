@@ -1,16 +1,21 @@
 package com.mirrar.testmakeupsdk
 
+import android.content.Intent
 import android.os.Bundle
+import android.provider.MediaStore
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.mirrar.makeupsdk.MakeUpFragment
 import com.mirrar.makeupsdk.helper.AppConstraints
 import com.mirrar.makeupsdk.interface_class.IMakeupCallback
 import com.mirrar.testmakeupsdk.databinding.FragmentMainBinding
 import com.visagetechnologies.makeupsdk.Effect
 import okhttp3.internal.notifyAll
+import java.io.IOException
 
 class MainFragment : Fragment(), IMakeupCallback {
 
@@ -60,7 +65,43 @@ class MainFragment : Fragment(), IMakeupCallback {
             }
         }
 
+        binding.camera.setOnClickListener {
+            makeUpFragment.switchToLiveCamera()
+        }
+
+        var b = true
+        binding.compare.setOnClickListener {
+            makeUpFragment.isNeededCompareTool(b)
+            b = !b
+        }
+
+        binding.photo.setOnClickListener {
+            val intent = Intent()
+            intent.type = "image/*"
+            intent.action = Intent.ACTION_GET_CONTENT
+            startActivityForResult(Intent.createChooser(intent, "Select Picture"), 1)
+        }
+
 //        makeUpFragment.removeMakeupEffect(effectMap[category[0]]!!)
+    }
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 1 && resultCode == AppCompatActivity.RESULT_OK) {
+            if (data != null) {
+                try {
+                    val bitmap = MediaStore.Images.Media.getBitmap(
+                        requireActivity().contentResolver,
+                        data.data
+                    )
+                    makeUpFragment.switchToGallery(bitmap)
+                } catch (e: IOException) {
+                    e.printStackTrace()
+                }
+
+            } else if (resultCode === AppCompatActivity.RESULT_CANCELED) {
+                Toast.makeText(requireActivity(), "Canceled", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     override fun OnClear() {
