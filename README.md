@@ -117,6 +117,18 @@ You can call the makeUpFragment.removeMakeupEffect() method to remove the applie
   makeUpFragment.removeMakeupEffect(effect)
 ```
 
+(iii) Enable/Disable compare makeup filter
+```
+makeUpFragment.isNeededCompareTool(b: Boolean)
+```
+
+(iv) Apply makeup filter on static image
+```
+makeUpFragment.switchToGallery(bitmap: Bitmap)
+```
+*If you are on gallery mode and want to switch back to camera mode, just call `makeUpFragment.switchToLiveCamera()` to get back on the camera feed.*
+
+
 Step 4. Callback 
 
 Implement the `IMakeupCallback` interface on `MakeUpFragmet` parent activity and override all of their functions
