@@ -126,6 +126,11 @@ makeUpFragment.isNeededCompareTool(b: Boolean)
 ```
 makeUpFragment.switchToGallery(bitmap: Bitmap)
 ```
+
+(v) Take photo
+```
+makeUpFragment.captureImage()
+```
 *If you are on gallery mode and want to switch back to camera mode, just call `makeUpFragment.switchToLiveCamera()` to get back on the camera feed.*
 
 
@@ -159,6 +164,10 @@ Implement the `IMakeupCallback` interface on `MakeUpFragmet` parent activity and
 
     override fun OnStart() {
 
+    }
+    
+    override fun captureBitmap(mBitmap: Bitmap?) {
+    
     }
 ```
 
