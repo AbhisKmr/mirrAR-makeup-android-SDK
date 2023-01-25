@@ -166,7 +166,7 @@ Implement the `IMakeupCallback` interface on `MakeUpFragmet` parent activity and
 
     }
     
-    override fun captureBitmap(mBitmap: Bitmap?) {
+    override fun captureBitmap(image: CaptureImage) {
     
     }
 ```
