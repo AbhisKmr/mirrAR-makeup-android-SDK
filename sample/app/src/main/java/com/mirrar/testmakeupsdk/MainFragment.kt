@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.mirrar.makeupsdk.MakeUpFragment
+import com.mirrar.makeupsdk.ViewModels.CaptureImage
 import com.mirrar.makeupsdk.helper.AppConstraints
 import com.mirrar.makeupsdk.interface_class.IMakeupCallback
 import com.mirrar.testmakeupsdk.databinding.FragmentMainBinding
@@ -138,7 +139,7 @@ class MainFragment : Fragment(), IMakeupCallback {
 
     }
 
-    override fun captureBitmap(mBitmap: Bitmap?) {
-        Log.v("captureBitmap", mBitmap.toString())
+    override fun captureBitmap(image: CaptureImage) {
+        Log.v("url", image.url)
     }
 }
