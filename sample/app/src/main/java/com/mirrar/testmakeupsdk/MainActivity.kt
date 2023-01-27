@@ -89,7 +89,7 @@ class MainActivity : AppCompatActivity() {
 
         if (allowed) {
             findViewById<Button>(R.id.openMakeupSDK).setOnClickListener {
-                if (list.size > 1 && binding.brandId.text.isNotEmpty()){
+                if (list.size > 0 && binding.brandId.text.isNotEmpty()){
                     AppConstraints.BRAND_ID = binding.brandId.text.toString()
                     supportFragmentManager.beginTransaction().replace(R.id.container, MainFragment(list))
                         .commit()

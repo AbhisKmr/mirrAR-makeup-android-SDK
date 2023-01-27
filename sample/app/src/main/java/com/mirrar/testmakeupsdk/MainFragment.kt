@@ -1,5 +1,6 @@
 package com.mirrar.testmakeupsdk
 
+import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
@@ -13,6 +14,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.mirrar.makeupsdk.MakeUpFragment
+import com.mirrar.makeupsdk.ViewModels.CaptureImage
 import com.mirrar.makeupsdk.interface_class.IMakeupCallback
 import com.mirrar.testmakeupsdk.databinding.FragmentMainBinding
 import com.mirrar.testmakeupsdk.model.SkuModel
@@ -143,11 +145,9 @@ class MainFragment(val list: MutableList<SkuModel>) : Fragment(), IMakeupCallbac
 
     }
 
-    override fun captureBitmap(mBitmap: Bitmap?) {
-        Log.v("captureBitmap", mBitmap.toString())
-        save(mBitmap!!)
+    override fun captureBitmap(image: CaptureImage) {
+        save(image.bitmap)
     }
-
     fun save(mBitmap: Bitmap) {
         val filename: String
         val date = Date(0)

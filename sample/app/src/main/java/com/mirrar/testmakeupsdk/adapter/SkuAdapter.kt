@@ -30,8 +30,7 @@ class SkuAdapter(val skuList: MutableList<SkuModel>, val iSkuListener: ISkuListe
         holder.binding.skuCategory.text = skuList[holder.adapterPosition].category
 
         holder.binding.delete.setOnClickListener {
-            skuList.removeAt(holder.adapterPosition)
-            notifyDataSetChanged()
+            iSkuListener.onDelete(holder.adapterPosition)
         }
     }
 
