@@ -13,6 +13,9 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.SimpleTarget
+import com.bumptech.glide.request.transition.Transition
 import com.mirrar.makeupsdk.MakeUpFragment
 import com.mirrar.makeupsdk.ViewModels.CaptureImage
 import com.mirrar.makeupsdk.interface_class.IMakeupCallback
@@ -67,7 +70,7 @@ class MainFragment(val list: MutableList<SkuModel>) : Fragment(), IMakeupCallbac
             .add(R.id.makeupContainer, makeUpFragment, makeUpFragment.tag).commit()
 
         binding.apply.setOnClickListener {
-            for (i in 0 until list.size){
+            for (i in 0 until list.size) {
                 val cat = list[i].category
                 val s = list[i].sku
                 makeUpFragment.applyMakeupEffect(cat, s)
@@ -97,6 +100,7 @@ class MainFragment(val list: MutableList<SkuModel>) : Fragment(), IMakeupCallbac
 
 //        makeUpFragment.removeMakeupEffect(effectMap[category[0]]!!)
     }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == 1 && resultCode == AppCompatActivity.RESULT_OK) {
@@ -146,8 +150,15 @@ class MainFragment(val list: MutableList<SkuModel>) : Fragment(), IMakeupCallbac
     }
 
     override fun captureBitmap(image: CaptureImage) {
-        save(image.bitmap)
+        Glide.with(requireActivity()).asBitmap().load(image.filterUrl).into(
+            object : SimpleTarget<Bitmap>(){
+                override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
+                    save(resource)
+                }
+            }
+        )
     }
+
     fun save(mBitmap: Bitmap) {
         val filename: String
         val date = Date(0)
@@ -171,7 +182,8 @@ class MainFragment(val list: MutableList<SkuModel>) : Fragment(), IMakeupCallbac
             MediaStore.Images.Media.insertImage(
                 requireActivity().contentResolver, file.absolutePath, file.name, file.name
             )
-            Toast.makeText(requireActivity(), "Image saved to ${file.path}", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireActivity(), "Image saved to ${file.path}", Toast.LENGTH_SHORT)
+                .show()
         } catch (e: Exception) {
             e.printStackTrace()
         }
