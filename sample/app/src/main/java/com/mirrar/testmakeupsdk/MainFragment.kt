@@ -140,6 +140,6 @@ class MainFragment : Fragment(), IMakeupCallback {
     }
 
     override fun captureBitmap(image: CaptureImage) {
-        Log.v("url", image.url)
+        Log.v(image.originalUrl, image.filterUrl)
     }
 }
