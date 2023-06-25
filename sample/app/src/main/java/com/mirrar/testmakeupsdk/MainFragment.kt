@@ -55,7 +55,7 @@ class MainFragment : Fragment(), IMakeupCallback {
         super.onViewCreated(view, savedInstanceState)
 
         AppConstraints.BRAND_ID = "4a65a544-0d45-4388-8076-001a6bec4c68"
-        makeUpFragment = MakeUpFragment(this)
+        makeUpFragment = MakeUpFragment(requireActivity().application, this)
 
         childFragmentManager.beginTransaction().addToBackStack("makeUpFragment")
             .add(R.id.makeupContainer, makeUpFragment, makeUpFragment.tag).commit()
