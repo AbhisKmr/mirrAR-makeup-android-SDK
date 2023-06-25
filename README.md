@@ -20,6 +20,8 @@ Step 2: add dependencies in `app gradle`
 		
 	implementation files('libs/makeup-codebase-release.aar')
 	implementation files('libs/makeup-engine-release.aar')
+
+	implementation 'com.amplitude:android-sdk:2.9.2'
 	}
   ```
   <sub>*Clean Build after all the above steps.*</sub>
@@ -86,7 +88,7 @@ Step 2. Initializing SDK
 
 (ii) Past this piece of code on activity class after checking the camera permission
 ```
-makeUpFragment = MakeUpFragment(this)
+makeUpFragment = MakeUpFragment(application, this)
 supportFragmentManager.beginTransaction()
                       .replace(R.id.container, makeUpFragment)
                       .commit()
